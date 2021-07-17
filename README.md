@@ -98,6 +98,27 @@ Some useful ones I use: \
 
 
 ## VCF format
+VCF format, or Variant Calling Format is the main type of file format for storing genotypic data. \
+A VCF file can contain many individuals, sample and genotype information. \
+The file will contain header rows that record important informnation about the file, including the reference used for mapping and the contigs present. \
+The files do tend to be much heavier than the PLINK or EIGENSTRAT formats that have stripped out a lot of the extra information, and make use of the matrix format to avoid repeating information unnecessarily, which allows the files to be much smaller. \
+Meta-information lines start with ## and contain various metadata. \
+The header line starts with # and is tab separated. It contains 9 columns of information about the variant calls, and then one column per sample name:
+
+* `CHROM` 	The name of the sequence (typically a chromosome) on which the variation is being called. This sequence is usually known as 'the reference sequence', i.e. the sequence against which the given sample varies. 
+* `POS` 	The 1-based position of the variation on the given sequence. 
+* `ID` 	The identifier of the variation, e.g. a dbSNP rs identifier, or if unknown a ".". Multiple identifiers should be separated by semi-colons without white-space. 
+* `REF` 	The reference base (or bases in the case of an indel) at the given position on the given reference sequence. 
+* `ALT` 	The list of alternative alleles at this position. 
+* `QUAL` 	A quality score associated with the inference of the given alleles. 
+* `FILTER` 	A flag indicating which of a given set of filters the variation has passed. 
+* `INFO` 	An extensible list of key-value pairs (fields) describing the variation. See below for some common fields. Multiple fields are separated by semicolons with optional values in the format: =[,data]. 
+* `FORMAT` 	An (optional) extensible list of fields for describing the samples. See below for some common fields. 
+* `SAMPLE` 	For each (optional) sample described in the file, values are given for the fields listed in FORMAT
+
+Here's an example:
+
+![image](https://user-images.githubusercontent.com/78726635/126028105-be396333-9955-42b2-b5c1-f4a7dec63aa5.png)
 
 
 # Converting between formats
@@ -208,6 +229,8 @@ poplistname:	 poplist_HGDP_China.txt
 ```
 Where the file you give to poplistname has been written to include populations (1 per line) from the `.ind` file that you want to extract.
 
+## Subsetting VCFs
+
 # Merging samples
 
 ## Merge datasets in PLINK
@@ -247,12 +270,14 @@ hashcheck:	YES
 NB** in the official mergeit documentation, this parfile is incorrect. \
 The documentation reads `genotypeoutname` `snpoutname` `indivoutname`, instead of what is in the above example. \
 
+## Merge VCFs
+
 # Miscellaneous Useful commands
 
 Renaming SNP ID from the rsID to "CHR_SITE" \
 In `*.bim` files:
 ```
-awk '{print $1, "\t", $1"_"$4, "\t", $3, "\t", $4, $5, "\t", $6}' <old>.bim > <new>.2.bim
+awk '{print $1, "\t", $1"_"$4, "\t", $3, "\t", $4, $5, "\t", $6}' <old>.bim > <new>.bim
 ```
 In `*.snp` files:
 ```
