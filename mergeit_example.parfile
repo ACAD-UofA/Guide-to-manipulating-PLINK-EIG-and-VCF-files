@@ -1,0 +1,12 @@
+geno1: <input1>.geno
+snp1:  <input1>.snp
+ind1:  <input1>.ind
+geno2: <input2>.geno
+snp2:  <input2>.snp
+ind2:  <input2>.ind
+genooutfilename: <output>.geno
+snpoutfilename:	<output>.snp
+indoutfilename:	<output>.ind
+outputformat:	EIGENSTRAT
+docheck:	YES
+hashcheck:	YES
