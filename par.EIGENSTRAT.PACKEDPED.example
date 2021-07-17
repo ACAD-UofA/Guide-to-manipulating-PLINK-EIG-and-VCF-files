@@ -1,0 +1,7 @@
+genotypename:    <in>.geno
+snpname:         <in>.snp
+indivname:       <in>.ind
+outputformat:    EIGENSTRAT
+genotypeoutname: <out>.bed
+snpoutname:      <out>.bim
+indivoutname:    <out>.fam
