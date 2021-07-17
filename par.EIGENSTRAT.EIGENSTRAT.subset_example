@@ -1,0 +1,8 @@
+genotypename:    <in>.geno
+snpname:         <in>.snp
+indivname:       <in>.ind
+outputformat:    EIGENSTRAT
+genotypeoutname: <out>.geno
+snpoutname:      <out>.snp
+indivoutname:	 <out>.ind
+poplistname:	 poplist_keep.txt
