@@ -192,6 +192,9 @@ Similarly, run the following inside a script if you are manipulating a large amo
 ml plink/1.90beta-4.4-21-May
 
 plink \
+  --bfile <in_prefix> \
+  --recode vcf \
+  --out <out>
 
 ```
 
