@@ -199,8 +199,7 @@ plink \
 ```
 
 # Subsetting or Merging samples
-<img width="611" alt="image" src="https://user-images.githubusercontent.com/78726635/126024208-1a5f7a9c-c0a2-45d6-af6c-0761b2e6fd6f.png">
-
+<img width="756" alt="image" src="https://user-images.githubusercontent.com/78726635/126028934-333c7083-3ac2-48a1-bf52-b354cfaaf1a0.png">
 ## Subset by individuals in PLINK
 Subset bed files to required individuals:
 ```
