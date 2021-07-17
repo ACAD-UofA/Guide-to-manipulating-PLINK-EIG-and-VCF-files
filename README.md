@@ -2,12 +2,12 @@
 
 ## EIGENSTRAT format
 Both EIGENSTRAT amd PLINK (see below) contain genoytpe information in filesets of three different types of files that must be carried together and always contain the same file prefix to be able to be called by scripts. \
-The EIGENSTRAT format is made up of `.ind`, `.snp` and `.geno` files: \
+The EIGENSTRAT format is made up of `.ind`, `.snp` and `.geno` files: 
 
 `.ind`: tab-delimited sample file with one line per individual and the following 3 columns:
-- sample ID
-- sex (M or F). U for Unknown
-- Case or Control status, or population group label. If this entry is set to "Ignore", then that individual and all genotype data from that individual will be removed from the data set in all CONVERTF output.
+* sample ID
+* sex (M or F). U for Unknown
+* Case or Control status, or population group label. If this entry is set to "Ignore", then that individual and all genotype data from that individual will be removed from the data set in all CONVERTF output. \
 Typically look like this:
 ```
 Ind1  M Pop1
@@ -16,11 +16,11 @@ Ind3  F pop2
 Ind4  M Pop2
 ```
 `.snp`: tab-delimited SNP file with one line per SNP and the following 6 columns (last 2 optional):
-        SNP name
-        Chromosome (X is encoded as 23, Y as 24, mtDNA as 90, and XY as 91)
-        Genetic position (in Morgans). 0 if unknown
-        Physical position (in bases)
-        Optional 5th and 6th columns are reference and variant alleles. For monomorphic SNPs, the variant allele can be encoded as X (unknown)
+* SNP name
+* Chromosome (X is encoded as 23, Y as 24, mtDNA as 90, and XY as 91)
+* Genetic position (in Morgans). 0 if unknown
+* Physical position (in bases)
+* Optional 5th and 6th columns are reference and variant alleles. For monomorphic SNPs, the variant allele can be encoded as X (unknown) \
 Typically look like this:
 ```
            rs3094315     1        0.020130          752566 G A
@@ -30,10 +30,10 @@ Typically look like this:
             rs950122     1        0.022720          846864 G C
 ```
 `.geno`: matrix genotype file with one line per SNP and and genotypes in non-separated columns, with the following genotype coding:
-        0: no copies of reference allele
-        1: one copy of reference allele
-        2: two copies of reference allele
-        9: missing data
+* 0: no copies of reference allele
+* 1: one copy of reference allele
+* 2: two copies of reference allele
+* 9: missing data \
 Typically look like this, one individual per column and one site per row:
 ```
 012000010010999099
@@ -44,15 +44,16 @@ Typically look like this, one individual per column and one site per row:
 201100000100999099
 ```
 ## PLINK (PACKEDPED) format 
-- The PLINK (PACKEDPED) format is the most common file format of plink. \
-- The format is a fileset of three different files that must accompany each other and have the same file prefix: `.bed`, `.bim` and `.fam` \
+The PLINK (PACKEDPED) format is the most common file format of plink. \
+The format is a fileset of three different files that must accompany each other and have the same file prefix: `.bed`, `.bim` and `.fam` 
+
 `.fam` files contains sample information, has no header line, and one line per sample with the following six fields:
-	- Family ID ('FID') \
-	- Within-family ID ('IID'; cannot be '0') \
-	- Within-family ID of father ('0' if father isn't in dataset) \
-	- Within-family ID of mother ('0' if mother isn't in dataset) \
-	- Sex code ('1' = male, '2' = female, '0' = unknown) \
-	- Phenotype value ('1' = control, '2' = case, '-9'/'0'/non-numeric = missing data if case/control) 
+* Family ID ('FID') 
+* Within-family ID ('IID'; cannot be '0') 
+* Within-family ID of father ('0' if father isn't in dataset) 
+* Within-family ID of mother ('0' if mother isn't in dataset) 
+* Sex code ('1' = male, '2' = female, '0' = unknown) 
+* Phenotype value ('1' = control, '2' = case, '-9'/'0'/non-numeric = missing data if case/control) \
 Typically look like this:
 ```
 Pop1  Ind1  0 0 1 -9
@@ -60,13 +61,13 @@ Pop1  Ind2  0 0 2 -9
 Pop2  Ind3  0 0 2 -9
 Pop2  Ind4  0 0 1 -9
 ```
-`.bim`: Contains variant information, has no header line, and one line per variant with the following six fields: \
-	- Chromosome code (either an integer, or 'X'/'Y'/'XY'/'MT'; '0' indicates unknown) or name \
-	- Variant identifier \
-	- Position in morgans or centimorgans \
-	- Base-pair coordinate (1-based) \
-	- Allele 1 (usually minor) \
-	- Allele 2 (usually major) \
+`.bim`: Contains variant information, has no header line, and one line per variant with the following six fields: 
+* Chromosome code (either an integer, or 'X'/'Y'/'XY'/'MT'; '0' indicates unknown) or name 
+* Variant identifier 
+* Position in morgans or centimorgans 
+* Base-pair coordinate (1-based) 
+* Allele 1 (usually minor) 
+* Allele 2 (usually major) \
 Typically look like this:
 ```
 1     rs3094315     0.020130       752566 G A
@@ -77,15 +78,14 @@ Typically look like this:
 1     rs9442372     0.026288      1018704 A G
 ```
 `.bed`: binary file that contains genotype information. The genotype information links between the individuals recorded in the `.fam` file and the SNPs recorded in the `.bim` file. Do not re-order or add/remove the lines in either of these files manually or this will not work. \
-
-## VCF format
+*NB: If you've come across the UCSC Genome Browser's BED file format, these are NOT THE SAME thing. 
 
 ## Using PLINK
-- Keep the PLINK 1.9 manual handy: https://www.cog-genomics.org/plink/1.9/ \
-- DO NOT use the conda versions of PLINK, there are many bugs and issues with scrambling data. \
-- PLINK is in general very annoying, reccommend to manipulate data in VCF or in EIGENSTRAT formats where possible. \
-- There are many functions PLINK will do to your data by default, so find the flags necessary to turn off these functions. \
-- PLINK will by default re-calculate what it thinks are the major and minor alleles in your data based on the dataset you give it, and then change the alleles around in your data accodingly. 
+* Keep the PLINK 1.9 manual handy: https://www.cog-genomics.org/plink/1.9/ \
+* DO NOT use the conda versions of PLINK, there are many bugs and issues with scrambling data. \
+* PLINK is in general very annoying, reccommend to manipulate data in VCF or in EIGENSTRAT formats where possible. \
+* There are many functions PLINK will do to your data by default, so find the flags necessary to turn off these functions. \
+* PLINK will by default re-calculate what it thinks are the major and minor alleles in your data based on the dataset you give it, and then change the alleles around in your data accodingly. 
 
 Some useful ones I use: \
 `--keep-allele-order`	Use this EVERY SINGLE TIME you call a plink command, otherwise the order of Allele1 and Allele2 may (or probably will) be flipped in your data. \
@@ -96,30 +96,25 @@ Some useful ones I use: \
 `--geno 0.9999`	Removes sites with greater that 0.9999 missing data, useful to easily remove loci with no data \
 `--extract`/`--exclude` Extracts or exlcludes variants based on a .txt file list of all variant IDs
 
+
+## VCF format
+
+
 # Converting between formats
-eve's diagram of conversions
+There are different ways to convert between these three formats. \
+To convert between EIGENSTRAT and PLINK (PACKEDPED), use CONVERTF. \
+To convert between VCF and PLINK (PACKEDPED), use plink commands. \
+To convert between EIGENSTRAT and VCF, there are two python scripts available, although there are some issues with these. \
+All of these conversion methods are explained in detail below.
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/78726635/126023876-4e4d964e-403f-484b-a67b-3023fe255954.png">
 
-## Convert VCF to PLINK format
-```
-ml plink/1.90beta-4.4-21-May
-
-plink \
-  --vcf <in>.vcf.gz \
-  --allow-no-sex \
-  --keep-allele-order \ 
-  --make-bed \
-  --out <out_prefix>
-```
-
-The flag `--make-bed` tells PLINK to output the `*.bed`, `*.bim`, `*.fam` fileset, called the PACKEDPED format. \
-There are other PLINK formats but this is the best for working with PLINK and EIGENSOFT downstream. \
-Also note that the files correspond to each other so you cannot manually filter one of them without filtering the fileset. \
-e.g. You could rename the variant IDs as long as the same number of variants are in the `*.bim` file, but not remove or add variants.
-
-## Convert PLINK to Eigenstrat format
+## Convertf
 Use EIGENSOFT's CONVERTF for converting formats. \
 CONVERTF manual: https://github.com/argriffing/eigensoft/blob/master/CONVERTF/README \
-The syntax to use convertf is `convertf -p parfile`
+The syntax to use convertf is `convertf -p parfile` \
+
+PLINK (PACKEDPED) --> Eigenstrat format
+
 Where the parfile should be named `par.PACKEDPED.EIGENSTRAT.<name>` \
 With the following format:
 ```
@@ -131,8 +126,56 @@ genotypeoutname: <out>.geno
 snpoutname:      <out>.snp
 indivoutname:    <out>.ind
 ```
+Eigenstrat --> PLINK (PACKEDPED) format \
+The parfile should now be named `par.EIGENSTRAT.PACKEDPED.<name>` \
+With the following format:
+```
+genotypename:    <in>.geno
+snpname:         <in>.snp
+indivname:       <in>.ind
+outputformat:    EIGENSTRAT
+genotypeoutname: <out>.bed
+snpoutname:      <out>.bim
+indivoutname:    <out>.fam
+```
+When converting to PACKEDPED format, need SNPS in ascending chromosome & position order, and the reference allele set as the major allele. \
+Whenever you use convertf, it is good to manually check the outputted `.ind` or `.fam` file afterwards, because depending on which version you use, this software is known for doing weird things such as scrambling the sample order, or appending the sample name and population name together into one column, and other irritating things.
 
-# Subsetting samples
+## Plink conversions
+VCF --> PLINK (PACKEDPED) format
+
+Run the following inside a script if you are manipulating a large amount of data: 
+```
+ml plink/1.90beta-4.4-21-May
+
+plink \
+  --vcf <in>.vcf.gz \
+  --allow-no-sex \
+  --keep-allele-order \ 
+  --make-bed \
+  --out <out_prefix>
+```
+or simply onto the command line if it's small enough to run quickly:
+```
+plink --vcf <in>.vcf.gz --allow-no-sex --keep-allele-order --make-bed --out <out_prefix>
+```
+The flag `--make-bed` tells PLINK to output the `*.bed`, `*.bim`, `*.fam` fileset, called the PACKEDPED format. \
+There are other PLINK formats but this is the best for downstream use. \
+Also note that the files correspond to each other so you cannot manually filter one of them without filtering the fileset. \
+e.g. You could rename the variant IDs as long as the same number of variants are in the `*.bim` file, but not reorder, remove or add variants.
+
+PLINK (PACKEDPED) --> VCF format
+
+Similarly, run the following inside a script if you are manipulating a large amount of data: 
+```
+ml plink/1.90beta-4.4-21-May
+
+plink \
+
+```
+
+# Subsetting or Merging samples
+<img width="611" alt="image" src="https://user-images.githubusercontent.com/78726635/126024208-1a5f7a9c-c0a2-45d6-af6c-0761b2e6fd6f.png">
 
 ## Subset by individuals in PLINK
 Subset bed files to required individuals:
@@ -185,6 +228,7 @@ THIRD_input.bed THIRD_input.bim THIRD_input.fam
 ## Merge datasets in EIGENSTRAT
 Use mergeit, syntax is `mergeit -p parfile`. \
 mergeit documentation: https://github.com/argriffing/eigensoft/blob/master/CONVERTF/README \
+One issue is you can only merge two datasets at once. \
 `*.parfile` format:
 ```
 geno1: <input1>.geno
