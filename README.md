@@ -292,7 +292,7 @@ awk '!seen[$2]++' in.txt > out.txt
 Editing `.ind` file to set population name to 'ignore' for individuals other than ones you want to keep. \
 (Only really practical if subsetting for a small number of individuals)
 ```
-awk '{if ($1=="Sample1"||$1=="Sample2"||$1=="Sample3") print $0; else print $1, $2, "ignore"}' v44.3_1240K_public.ind > v44.3_1240K_public.subset.ind
+awk '{if ($1=="Sample1"||$1=="Sample2"||$1=="Sample3") print $0; else print $1, $2, "ignore"}' <in>.ind > <out>.subset.ind
 
 ```
 Find and replace strings in text file. `\b` denotes word boundary
