@@ -218,14 +218,14 @@ Then use convertf to convert EIGENSTRAT to EIGENSTRAT format and the output will
 The parfile will have the name `par.EIGENSTRAT.EIGENSTRAT.<name>` 
 Example:
 ```
-genotypename:    v44.3_1240K_public.geno
-snpname:         v44.3_1240K_public.snp
-indivname:       v44.3_1240K_public.ind
+genotypename:    <in>.geno
+snpname:         <in>.snp
+indivname:       <in>.ind
 outputformat:    EIGENSTRAT
-genotypeoutname: HGDP_China.geno
-snpoutname:      HGDP_China.snp
-indivoutname:	 HGDP_China.ind
-poplistname:	 poplist_HGDP_China.txt
+genotypeoutname: <out>.geno
+snpoutname:      <out>.snp
+indivoutname:	 <out>.ind
+poplistname:	 poplist_keep.txt
 ```
 Where the file you give to poplistname has been written to include populations (1 per line) from the `.ind` file that you want to extract.
 
