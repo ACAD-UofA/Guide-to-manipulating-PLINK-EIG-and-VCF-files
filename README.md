@@ -81,10 +81,10 @@ Typically look like this:
 *NB: If you've come across the UCSC Genome Browser's BED file format, these are NOT THE SAME thing. 
 
 ## Using PLINK
-* Keep the PLINK 1.9 manual handy: https://www.cog-genomics.org/plink/1.9/ \
-* DO NOT use the conda versions of PLINK, there are many bugs and issues with scrambling data. \
-* PLINK is in general very annoying, reccommend to manipulate data in VCF or in EIGENSTRAT formats where possible. \
-* There are many functions PLINK will do to your data by default, so find the flags necessary to turn off these functions. \
+* Keep the PLINK 1.9 manual handy: https://www.cog-genomics.org/plink/1.9/ 
+* DO NOT use the conda versions of PLINK, there are many bugs and issues with scrambling data. 
+* PLINK is in general very annoying, reccommend to manipulate data in VCF or in EIGENSTRAT formats where possible. 
+* There are many functions PLINK will do to your data by default, so find the flags necessary to turn off these functions. 
 * PLINK will by default re-calculate what it thinks are the major and minor alleles in your data based on the dataset you give it, and then change the alleles around in your data accodingly. 
 
 Some useful ones I use: \
@@ -132,7 +132,7 @@ All of these conversion methods are explained in detail below.
 ## Convertf
 Use EIGENSOFT's CONVERTF for converting formats. \
 CONVERTF manual: https://github.com/argriffing/eigensoft/blob/master/CONVERTF/README \
-The syntax to use convertf is `convertf -p parfile` \
+The syntax to use convertf is `convertf -p parfile` 
 
 PLINK (PACKEDPED) --> Eigenstrat format
 
@@ -271,7 +271,7 @@ docheck:	YES
 hashcheck:	YES
 ```
 NB** in the official mergeit documentation, this parfile is incorrect. \
-The documentation reads `genotypeoutname` `snpoutname` `indivoutname`, instead of what is in the above example. \
+The documentation reads `genotypeoutname` `snpoutname` `indivoutname`, instead of what is in the above example. 
 
 ## Merge VCFs
 
