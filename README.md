@@ -134,7 +134,7 @@ Use EIGENSOFT's CONVERTF for converting formats. \
 CONVERTF manual: https://github.com/argriffing/eigensoft/blob/master/CONVERTF/README \
 The syntax to use convertf is `convertf -p parfile` 
 
-PLINK (PACKEDPED) --> Eigenstrat format
+### PLINK (PACKEDPED) --> Eigenstrat format
 
 Where the parfile should be named `par.PACKEDPED.EIGENSTRAT.<name>` \
 With the following format:
@@ -147,7 +147,7 @@ genotypeoutname: <out>.geno
 snpoutname:      <out>.snp
 indivoutname:    <out>.ind
 ```
-Eigenstrat --> PLINK (PACKEDPED) format \
+### Eigenstrat --> PLINK (PACKEDPED) format \
 The parfile should now be named `par.EIGENSTRAT.PACKEDPED.<name>` \
 With the following format:
 ```
@@ -163,7 +163,7 @@ When converting to PACKEDPED format, need SNPS in ascending chromosome & positio
 Whenever you use convertf, it is good to manually check the outputted `.ind` or `.fam` file afterwards, because depending on which version you use, this software is known for doing weird things such as scrambling the sample order, or appending the sample name and population name together into one column, and other irritating things.
 
 ## Plink conversions
-VCF --> PLINK (PACKEDPED) format
+### VCF --> PLINK (PACKEDPED) format
 
 Run the following inside a script if you are manipulating a large amount of data: 
 ```
@@ -185,7 +185,7 @@ There are other PLINK formats but this is the best for downstream use. \
 Also note that the files correspond to each other so you cannot manually filter one of them without filtering the fileset. \
 e.g. You could rename the variant IDs as long as the same number of variants are in the `*.bim` file, but not reorder, remove or add variants.
 
-PLINK (PACKEDPED) --> VCF format
+### PLINK (PACKEDPED) --> VCF format
 
 Similarly, run the following inside a script if you are manipulating a large amount of data: 
 ```
@@ -325,7 +325,7 @@ vcf-merge <input1>.vcf <input2>.vcf > <merged>.vcf
 
 # Miscellaneous Useful commands
 
-Renaming SNP ID from the rsID to "CHR_SITE" \
+### Renaming SNP ID from the rsID to "CHR_SITE" 
 In `*.bim` files:
 ```
 awk '{print $1, "\t", $1"_"$4, "\t", $3, "\t", $4, $5, "\t", $6}' <old>.bim > <new>.bim
@@ -335,18 +335,18 @@ In `*.snp` files:
 awk '{print $2"_"$4, "\t", $2, "\t", $3, "\t", $4, $5, $6}' <old>.snp > <new>.snp
 ```
 
-Removing rows in a text file by duplicates in a specified colums.\
+### Removing rows in a text file by duplicates in a specified colums.
 e.g. to remove rows with duplicats in column 2:
 ```
 awk '!seen[$2]++' in.txt > out.txt
 ```
-Editing `.ind` file to set population name to 'ignore' for individuals other than ones you want to keep. \
+### Editing `.ind` file to set population name to 'ignore' for individuals other than ones you want to keep. 
 (Only really practical if subsetting for a small number of individuals)
 ```
 awk '{if ($1=="Sample1"||$1=="Sample2"||$1=="Sample3") print $0; else print $1, $2, "ignore"}' <in>.ind > <out>.subset.ind
 
 ```
-Find and replace strings in text file. `\b` denotes word boundary
+### Find and replace strings in text file. `\b` denotes word boundary
 ```
 gsed -i 's/\b<OLD_STRING>\b/<NEW_STRING>/g' <file>.txt
 ```
