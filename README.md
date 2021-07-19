@@ -91,9 +91,9 @@ Some useful ones I use: \
 `--keep-allele-order`	Use this EVERY SINGLE TIME you call a plink command, otherwise the order of Allele1 and Allele2 may (or probably will) be flipped in your data. \
 `--allow-no-sex` 	PLINK will default to removing individuals that have unassigned sex, use this to force it to keep them. \
 `--snps-only` 		Removes indels from your variant data and keeps only snps \
-`--biallelic-only` Removes sites with 2+ alleles \
-`--indiv-sort 0` PLINK default re-orders your data by individual name, this keeps them the same order as the `*.fam` file \
-`--geno 0.9999`	Removes sites with greater that 0.9999 missing data, useful to easily remove loci with no data \
+`--biallelic-only` 	Removes sites with 2+ alleles \
+`--indiv-sort 0` 	PLINK default re-orders your data by individual name, this keeps them the same order as the `*.fam` file \
+`--geno 0.9999`		Removes sites with greater that 0.9999 missing data, useful to easily remove loci with no data \
 `--extract`/`--exclude` Extracts or exlcludes variants based on a .txt file list of all variant IDs
 
 
@@ -274,6 +274,8 @@ Where `samplestokeep` is a single-column list of samples you want in output vcf.
 ## Merge datasets in PLINK
 Call the first input fileset in the command with `--bfile`, and all subsequent filesets from the `mergelist.txt` file
 ```
+ml plink/1.90beta-4.4-21-May
+
 plink --bfile <FIRST_input_fileset_prefix> \
 	--keep-allele-order \
 	--allow-no-sex \
