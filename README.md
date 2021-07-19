@@ -325,7 +325,7 @@ vcf-merge <input1>.vcf <input2>.vcf > <merged>.vcf
 
 # Miscellaneous Useful commands
 
-* Renaming SNP ID from the rsID to "CHR_SITE" 
+* Renaming SNP ID from the rsID to "CHR_SITE" \
 In `*.bim` files:
 ```
 awk '{print $1, "\t", $1"_"$4, "\t", $3, "\t", $4, $5, "\t", $6}' <old>.bim > <new>.bim
