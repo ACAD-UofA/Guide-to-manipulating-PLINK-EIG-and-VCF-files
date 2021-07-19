@@ -193,10 +193,33 @@ ml plink/1.90beta-4.4-21-May
 
 plink \
   --bfile <in_prefix> \
+  --allow-no-sex \
+  --reference-allele ./Ref_alleles_forPlink \
   --recode vcf \
-  --out <out>
-
+  --out <out_prefix>
 ```
+Where `Ref_alleles_forPlink` is a two-column tab-delimited file containing SNP IDs and corresponding reference allele, that looks like this:
+```
+rs3094315 G
+rs12124819 A
+rs28765502 T
+```
+
+## EIGENSTRAT to VCF
+Install Mathiesen's python script. You will need the pyEigenstrat.py script from this github: https://github.com/mathii/pyEigenstrat \
+As well as the rest of the scripts from here https://github.com/mathii/gdc \
+To convert EIG, where eigenstrat input files are in current directory and all have prefix `file_prefix` (with `.ind`, `.snp`, `.geno` extension) to vcf:
+```
+module purge
+module load arch/arch/haswell
+module load modulefiles/arch/haswell
+module load Python/2.7.13-foss-2016b
+
+python eigenstrat2vcf.py -r file_prefix > file_name.vcf
+```
+
+## VCF to EIGENSTRAT
+Graham's script has proven difficult to get to work :(
 
 # Subsetting or Merging samples
 <img width="756" alt="image" src="https://user-images.githubusercontent.com/78726635/126028934-333c7083-3ac2-48a1-bf52-b354cfaaf1a0.png">
@@ -233,11 +256,23 @@ poplistname:	 poplist_keep.txt
 Where the file you give to poplistname has been written to include populations (1 per line) from the `.ind` file that you want to extract.
 
 ## Subsetting VCFs
+Use `vcf-subset` from vcftools
+```
+module purge
+module load arch/arch/haswell
+module load arch/haswell
+module load modulefiles/arch/haswell
+
+module load vcftools/0.1.12a-GCC-5.3.0-binutils-2.25
+
+vcf-subset -c samplestokeep <original>.vcf > <subsetted>.vcf
+```
+Where `samplestokeep` is a single-column list of samples you want in output vcf.
 
 # Merging samples
 
 ## Merge datasets in PLINK
-
+Call the first input fileset in the command with `--bfile`, and all subsequent filesets from the `mergelist.txt` file
 ```
 plink --bfile <FIRST_input_fileset_prefix> \
 	--keep-allele-order \
@@ -274,6 +309,17 @@ NB** in the official mergeit documentation, this parfile is incorrect. \
 The documentation reads `genotypeoutname` `snpoutname` `indivoutname`, instead of what is in the above example. 
 
 ## Merge VCFs
+Use `vcf-merge` from vcftools
+```
+module purge
+module load arch/arch/haswell
+module load arch/haswell
+module load modulefiles/arch/haswell
+
+module load vcftools/0.1.12a-GCC-5.3.0-binutils-2.25
+
+vcf-merge <input1>.vcf <input2>.vcf > <merged>.vcf
+```
 
 # Miscellaneous Useful commands
 
