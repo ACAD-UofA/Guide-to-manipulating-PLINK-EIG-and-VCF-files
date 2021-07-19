@@ -325,7 +325,7 @@ vcf-merge <input1>.vcf <input2>.vcf > <merged>.vcf
 
 # Miscellaneous Useful commands
 
-### Renaming SNP ID from the rsID to "CHR_SITE" 
+* Renaming SNP ID from the rsID to "CHR_SITE" 
 In `*.bim` files:
 ```
 awk '{print $1, "\t", $1"_"$4, "\t", $3, "\t", $4, $5, "\t", $6}' <old>.bim > <new>.bim
@@ -335,18 +335,19 @@ In `*.snp` files:
 awk '{print $2"_"$4, "\t", $2, "\t", $3, "\t", $4, $5, $6}' <old>.snp > <new>.snp
 ```
 
-### Removing rows in a text file by duplicates in a specified colums.
+* Removing rows in a text file by duplicates in a specified colums.
 e.g. to remove rows with duplicats in column 2:
 ```
 awk '!seen[$2]++' in.txt > out.txt
 ```
-### Editing `.ind` file to set population name to 'ignore' for individuals other than ones you want to keep. 
+
+* Editing `.ind` file to set population name to 'ignore' for individuals other than ones you want to keep. 
 (Only really practical if subsetting for a small number of individuals)
 ```
 awk '{if ($1=="Sample1"||$1=="Sample2"||$1=="Sample3") print $0; else print $1, $2, "ignore"}' <in>.ind > <out>.subset.ind
-
 ```
-### Find and replace strings in text file. `\b` denotes word boundary
+
+* Find and replace strings in text file. `\b` denotes word boundary
 ```
 gsed -i 's/\b<OLD_STRING>\b/<NEW_STRING>/g' <file>.txt
 ```
