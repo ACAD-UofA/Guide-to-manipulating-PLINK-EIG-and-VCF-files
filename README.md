@@ -16,7 +16,7 @@ Ind3  F pop2
 Ind4  M Pop2
 ```
 `.snp`: tab-delimited SNP file with one line per SNP and the following 6 columns (last 2 optional):
-* SNP name
+* SNP name (rsID or "CHR"_"POS")
 * Chromosome (X is encoded as 23, Y as 24, mtDNA as 90, and XY as 91)
 * Genetic position (in Morgans). 0 if unknown
 * Physical position (in bases)
@@ -26,8 +26,8 @@ Typically look like this:
            rs3094315     1        0.020130          752566 G A
           rs12124819     1        0.020242          776546 A G
           rs28765502     1        0.022137          832918 T C
-           rs7419119     1        0.022518          842013 T G
-            rs950122     1        0.022720          846864 G C
+            1_842013     1        0.022518          842013 T G
+            1_846864     1        0.022720          846864 G C
 ```
 `.geno`: matrix genotype file with one line per SNP and and genotypes in non-separated columns, with the following genotype coding:
 * 0: no copies of reference allele
@@ -88,13 +88,15 @@ Typically look like this:
 * PLINK will by default re-calculate what it thinks are the major and minor alleles in your data based on the dataset you give it, and then change the alleles around in your data accodingly. 
 
 Some useful ones I use: \
-`--keep-allele-order`	Use this EVERY SINGLE TIME you call a plink command, otherwise the order of Allele1 and Allele2 may (or probably will) be flipped in your data. \
-`--allow-no-sex` 	PLINK will default to removing individuals that have unassigned sex, use this to force it to keep them. \
-`--snps-only` 		Removes indels from your variant data and keeps only snps \
-`--biallelic-only` 	Removes sites with 2+ alleles \
-`--indiv-sort 0` 	PLINK default re-orders your data by individual name, this keeps them the same order as the `*.fam` file \
-`--geno 0.9999`		Removes sites with greater that 0.9999 missing data, useful to easily remove loci with no data \
-`--extract`/`--exclude` Extracts or exlcludes variants based on a .txt file list of all variant IDs
+- `--keep-allele-order`	Use this EVERY SINGLE TIME you call a plink command, otherwise the order of Allele1 and Allele2 may (or probably will) be flipped in your data. \
+- `--allow-no-sex` 	PLINK will default to removing individuals that have unassigned sex, use this to force it to keep them. \
+- `--snps-only` 		Removes indels from your variant data and keeps only snps \
+- `--biallelic-only`	Removes sites with 2+ alleles \
+- `--indiv-sort 0` PLINK default re-orders your data by individual name, this keeps them the same order as the `*.fam` file \
+- `--geno xx` removes sites with missingness greater than a given thrshold. PLINK by default filters snps with >0.1 missingness, so use `--geno 1.0` to keep all sites. `--geno 0.999999`	Removes sites no data \
+- `--mind` similar to geno, but sets a threshold of missingness per individual. \
+- `--extract`/`--exclude` Extracts or exlcludes variants based on a .txt file list of all variant IDs
+- `--keep`/`--remove` keep or remove individuals based on a supplied list in a .txt file with corresponding family ID nd within family IDs (or population & individual names). 
 
 
 ## VCF format
@@ -147,7 +149,7 @@ genotypeoutname: <out>.geno
 snpoutname:      <out>.snp
 indivoutname:    <out>.ind
 ```
-### Eigenstrat --> PLINK (PACKEDPED) format \
+### Eigenstrat --> PLINK (PACKEDPED) format 
 The parfile should now be named `par.EIGENSTRAT.PACKEDPED.<name>` \
 With the following format:
 ```
