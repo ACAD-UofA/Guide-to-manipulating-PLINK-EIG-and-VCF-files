@@ -19,8 +19,8 @@ Ind4  M Pop2
 * SNP name (rsID or "CHR"_"POS")
 * Chromosome (X is encoded as 23, Y as 24, mtDNA as 90, and XY as 91)
 * Genetic position (in Morgans). 0 if unknown
-* Physical position (in bases)
-* Optional 5th and 6th columns are reference and variant alleles. For monomorphic SNPs, the variant allele can be encoded as X (unknown) \
+* Physical position (in basepairs)
+* 5th and 6th columns are reference and variant alleles. For monomorphic SNPs, the variant allele can be encoded as X (unknown) \
 Typically look like this:
 ```
            rs3094315     1        0.020130          752566 G A
@@ -43,6 +43,7 @@ Typically look like this, one individual per column and one site per row:
 010000000100999990
 201100000100999099
 ```
+
 ## PLINK (PACKEDPED) format 
 The PLINK (PACKEDPED) format is the most common file format of plink. \
 The format is a fileset of three different files that must accompany each other and have the same file prefix: `.bed`, `.bim` and `.fam` 
@@ -83,11 +84,11 @@ Typically look like this:
 ## Using PLINK
 * Keep the PLINK 1.9 manual handy: https://www.cog-genomics.org/plink/1.9/ 
 * DO NOT use the conda versions of PLINK, there are many bugs and issues with scrambling data. 
-* PLINK is in general very annoying, reccommend to manipulate data in VCF or in EIGENSTRAT formats where possible. 
+* PLINK is in general very annoying, I recommend manipulating data in VCF or in EIGENSTRAT formats where possible. 
 * There are many functions PLINK will do to your data by default, so find the flags necessary to turn off these functions. 
 * PLINK will by default re-calculate what it thinks are the major and minor alleles in your data based on the dataset you give it, and then change the alleles around in your data accodingly. 
 
-Some useful ones I use: \
+Some common ones I use: \
 - `--keep-allele-order`	Use this EVERY SINGLE TIME you call a plink command, otherwise the order of Allele1 and Allele2 may (or probably will) be flipped in your data. \
 - `--allow-no-sex` 	PLINK will default to removing individuals that have unassigned sex, use this to force it to keep them. \
 - `--snps-only` 		Removes indels from your variant data and keeps only snps \
@@ -96,14 +97,15 @@ Some useful ones I use: \
 - `--geno xx` removes sites with missingness greater than a given thrshold. PLINK by default filters snps with >0.1 missingness, so use `--geno 1.0` to keep all sites. `--geno 0.999999`	Removes sites no data \
 - `--mind` similar to geno, but sets a threshold of missingness per individual. \
 - `--extract`/`--exclude` Extracts or exlcludes variants based on a .txt file list of all variant IDs
-- `--keep`/`--remove` keep or remove individuals based on a supplied list in a .txt file with corresponding family ID nd within family IDs (or population & individual names). 
+- `--keep`/`--remove` keep or remove individuals based on a supplied list in a .txt file with corresponding family ID nd within family IDs (or population & individual names).
+- `--missing` Generates a report of data missingness per SNP and per individual.
 
 
 ## VCF format
 VCF format, or Variant Calling Format is the main type of file format for storing genotypic data. \
 A VCF file can contain many individuals, sample and genotype information. \
-The file will contain header rows that record important informnation about the file, including the reference used for mapping and the contigs present. \
-The files do tend to be much heavier than the PLINK or EIGENSTRAT formats that have stripped out a lot of the extra information, and make use of the matrix format to avoid repeating information unnecessarily, which allows the files to be much smaller. \
+The file will contain header rows that record important information about the file, including the reference used for mapping and the contigs present. \
+The files do tend to be much heavier than the PLINK or EIGENSTRAT formats that have stripped out a lot of the extra information and make use of the matrix format to avoid repeating information unnecessarily, which allows the files to be much smaller. \
 Meta-information lines start with ## and contain various metadata. \
 The header line starts with # and is tab separated. It contains 9 columns of information about the variant calls, and then one column per sample name:
 
@@ -122,6 +124,8 @@ Here's an example:
 
 ![image](https://user-images.githubusercontent.com/78726635/126028105-be396333-9955-42b2-b5c1-f4a7dec63aa5.png)
 
+### Pros and cons of each format
+<img width="800" alt="Screen Shot 2023-08-09 at 8 15 34 pm" src="https://github.com/ACAD-UofA/Guide-to-manipulating-PLINK-EIG-and-VCF-files/assets/78726635/4e6014f3-7b14-4dda-a813-0d8b09137337">
 
 # Converting between formats
 There are different ways to convert between these three formats. \
@@ -156,7 +160,7 @@ With the following format:
 genotypename:    <in>.geno
 snpname:         <in>.snp
 indivname:       <in>.ind
-outputformat:    EIGENSTRAT
+outputformat:    PACKEDPED
 genotypeoutname: <out>.bed
 snpoutname:      <out>.bim
 indivoutname:    <out>.fam
@@ -196,15 +200,8 @@ ml plink/1.90beta-4.4-21-May
 plink \
   --bfile <in_prefix> \
   --allow-no-sex \
-  --reference-allele ./Ref_alleles_forPlink \
   --recode vcf \
   --out <out_prefix>
-```
-Where `Ref_alleles_forPlink` is a two-column tab-delimited file containing SNP IDs and corresponding reference allele, that looks like this:
-```
-rs3094315 G
-rs12124819 A
-rs28765502 T
 ```
 or simply onto the command line if it's small enough to run quickly:
 ```
@@ -216,18 +213,13 @@ Install Mathiesen's python script. You will need the pyEigenstrat.py script from
 As well as the rest of the scripts from here https://github.com/mathii/gdc \
 To convert EIG, where eigenstrat input files are in current directory and all have prefix `file_prefix` (with `.ind`, `.snp`, `.geno` extension) to vcf:
 ```
-module purge
-module load arch/arch/haswell
-module load modulefiles/arch/haswell
-module load Python/2.7.13-foss-2016b
-
-python eigenstrat2vcf.py -r file_prefix > file_name.vcf
+python2 eigenstrat2vcf.py -r file_prefix > file_name.vcf
 ```
 
 ## VCF to EIGENSTRAT
 Graham's script has proven difficult to get to work :(
 
-# Subsetting or Merging samples
+# Subsetting & Merging samples
 <img width="756" alt="image" src="https://user-images.githubusercontent.com/78726635/126028934-333c7083-3ac2-48a1-bf52-b354cfaaf1a0.png">
 
 ## Subset by individuals in PLINK
@@ -242,7 +234,7 @@ plink --bfile <input_fileset_prefix> \
 	--make-bed \
 	--out <output_fileset_prefix>
 ```
-Where keeplist.txt has one individual per row, the first and second column from the `*.fam` file
+Where keeplist.txt has one individual per row, the first and second column from the `*.fam` file which are usually the sample and population names
 
 ## Subset by individuals in EIGENSTRAT
 Use poplistname option in convertf \
@@ -264,11 +256,6 @@ Where the file you give to poplistname has been written to include populations (
 ## Subsetting VCFs
 Use `vcf-subset` from vcftools
 ```
-module purge
-module load arch/arch/haswell
-module load arch/haswell
-module load modulefiles/arch/haswell
-
 module load vcftools/0.1.12a-GCC-5.3.0-binutils-2.25
 
 vcf-subset -c samplestokeep <original>.vcf > <subsetted>.vcf
@@ -278,6 +265,9 @@ Where `samplestokeep` is a single-column list of samples you want in output vcf.
 # Merging samples
 
 ## Merge datasets in PLINK
+If merging in plink you an merge as many datasets as you like. \
+The union of all SNPs will be kept in the merged dataset. \
+Beware plink may re-order you individuals unless you tell it not to with `--indiv-sort 0`
 Call the first input fileset in the command with `--bfile`, and all subsequent filesets from the `mergelist.txt` file
 ```
 ml plink/1.90beta-4.4-21-May
@@ -285,6 +275,7 @@ ml plink/1.90beta-4.4-21-May
 plink --bfile <FIRST_input_fileset_prefix> \
 	--keep-allele-order \
 	--allow-no-sex \
+	--indiv-sort 0 \
 	--merge-list mergelist.txt \
 	--make-bed \
 	--out <output_fileset_prefix>
@@ -295,9 +286,10 @@ SECOND_input.bed SECOND_input.bim SECOND_input.fam
 THIRD_input.bed THIRD_input.bim THIRD_input.fam
 ```
 ## Merge datasets in EIGENSTRAT
+In MERGEIT you can only merge two datasets at a time \
+It will keep only the intersection of SNPs \
 Use mergeit, syntax is `mergeit -p parfile`. \
 mergeit documentation: https://github.com/argriffing/eigensoft/blob/master/CONVERTF/README \
-One issue is you can only merge two datasets at once. \
 `*.parfile` format:
 ```
 geno1: <input1>.geno
@@ -319,11 +311,6 @@ The documentation reads `genotypeoutname` `snpoutname` `indivoutname`, instead o
 ## Merge VCFs
 Use `vcf-merge` from vcftools
 ```
-module purge
-module load arch/arch/haswell
-module load arch/haswell
-module load modulefiles/arch/haswell
-
 module load vcftools/0.1.12a-GCC-5.3.0-binutils-2.25
 
 vcf-merge <input1>.vcf <input2>.vcf > <merged>.vcf
