@@ -206,6 +206,10 @@ rs3094315 G
 rs12124819 A
 rs28765502 T
 ```
+or simply onto the command line if it's small enough to run quickly:
+```
+plink --bfile <in_prefix> --allow-no-sex --keep-allele-order --recode vcf --out <out_prefix>
+```
 
 ## EIGENSTRAT to VCF
 Install Mathiesen's python script. You will need the pyEigenstrat.py script from this github: https://github.com/mathii/pyEigenstrat \
